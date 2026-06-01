@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ВІДЕОКРАТІЯ — Анатомія режиму, що керує через забуття</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;700;900&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep:       #03090f;
+    --abyss:      #060e1a;
+    --navy:       #0a1628;
+    --ocean:      #0d2137;
+    --teal-dark:  #083d3f;
+    --gold:       #c9a84c;
+    --gold-light: #e8d48a;
+    --gold-dim:   #7a6230;
+    --bio:        #00e5cc;
+    --bio-dim:    #00897b;
+    --bio-pale:   #b2dfdb;
+    --rust:       #8b3a2a;
+    --rust-light: #c0523d;
+    --cream:      #e8dfc8;
+    --cream-dim:  #b8a98a;
+    --shadow:     rgba(0,0,0,0.8);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ─── UNDERWATER BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 120% 60% at 20% 80%, rgba(0,60,80,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 40% at 80% 20%, rgba(0,40,60,0.3) 0%, transparent 50%),
+      radial-gradient(ellipse 200% 100% at 50% 100%, rgba(3,9,15,1) 40%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── CAUSTIC LIGHT EFFECT ─── */
+  .caustic-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.04;
+    background-image:
+      repeating-conic-gradient(from 0deg at 30% 20%, transparent 0deg, rgba(0,229,204,1) 1deg, transparent 2deg, transparent 10deg),
+      repeating-conic-gradient(from 45deg at 70% 60%, transparent 0deg, rgba(201,168,76,1) 1deg, transparent 2deg, transparent 15deg);
+    animation: caustic 12s ease-in-out infinite alternate;
+  }
+  @keyframes caustic {
+    0%   { transform: scale(1)    rotate(0deg);   opacity: 0.03; }
+    50%  { transform: scale(1.05) rotate(2deg);   opacity: 0.06; }
+    100% { transform: scale(0.98) rotate(-1deg);  opacity: 0.04; }
+  }
+
+  /* ─── BUBBLES ─── */
+  .bubbles { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+  .bubble {
+    position: absolute;
+    bottom: -40px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,229,204,0.3);
+    background: radial-gradient(circle at 35% 35%, rgba(0,229,204,0.15), rgba(0,229,204,0.03));
+    animation: rise linear infinite;
+  }
+  .bubble:nth-child(1)  { width:8px;  height:8px;  left:8%;   animation-duration:14s; animation-delay:0s; }
+  .bubble:nth-child(2)  { width:5px;  height:5px;  left:18%;  animation-duration:18s; animation-delay:3s; }
+  .bubble:nth-child(3)  { width:12px; height:12px; left:27%;  animation-duration:11s; animation-delay:7s; }
+  .bubble:nth-child(4)  { width:4px;  height:4px;  left:37%;  animation-duration:22s; animation-delay:1s; }
+  .bubble:nth-child(5)  { width:7px;  height:7px;  left:48%;  animation-duration:16s; animation-delay:5s; }
+  .bubble:nth-child(6)  { width:10px; height:10px; left:58%;  animation-duration:13s; animation-delay:9s; }
+  .bubble:nth-child(7)  { width:6px;  height:6px;  left:68%;  animation-duration:19s; animation-delay:2s; }
+  .bubble:nth-child(8)  { width:9px;  height:9px;  left:78%;  animation-duration:15s; animation-delay:6s; }
+  .bubble:nth-child(9)  { width:3px;  height:3px;  left:88%;  animation-duration:21s; animation-delay:4s; }
+  .bubble:nth-child(10) { width:11px; height:11px; left:93%;  animation-duration:12s; animation-delay:8s; }
+  @keyframes rise {
+    0%   { transform: translateY(0)   translateX(0);   opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.3; }
+    100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+  }
+
+  /* ─── MAIN WRAPPER ─── */
+  .wrapper {
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ─── DECO LINE ─── */
+  .deco-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .deco-line::before,
+  .deco-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .deco-line span {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    white-space: nowrap;
+  }
+
+  /* ─── ORNAMENT ─── */
+  .ornament {
+    text-align: center;
+    color: var(--gold-dim);
+    font-size: 1.4rem;
+    letter-spacing: 0.5em;
+    margin: 1.5rem 0;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    text-align: center;
+    padding: 7rem 0 4rem;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.5em;
+    color: var(--bio-dim);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    animation: fadeDown 1.5s ease both;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-shadow:
+      0 0 40px rgba(201,168,76,0.5),
+      0 0 80px rgba(201,168,76,0.2),
+      0 2px 0 var(--gold-dim);
+    animation: fadeDown 1.5s ease 0.2s both;
+  }
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-style: italic;
+    color: var(--bio-pale);
+    margin-top: 1.5rem;
+    letter-spacing: 0.05em;
+    animation: fadeDown 1.5s ease 0.4s both;
+  }
+  .hero-meta {
+    margin-top: 3rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    animation: fadeDown 1.5s ease 0.6s both;
+  }
+  .hero-frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-frame::before,
+  .hero-frame::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-color: var(--gold-dim);
+    border-style: solid;
+    opacity: 0.5;
+  }
+  .hero-frame::before { top: 5rem; left: 0; border-width: 2px 0 0 2px; }
+  .hero-frame::after  { bottom: 2rem; right: 0; border-width: 0 2px 2px 0; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── CLASSIFIED STAMP ─── */
+  .stamp {
+    display: inline-block;
+    border: 3px solid var(--rust-light);
+    color: var(--rust-light);
+    font-family: 'Special Elite', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    padding: 0.3rem 1rem;
+    transform: rotate(-2deg);
+    opacity: 0.7;
+    margin: 1rem 0;
+    text-transform: uppercase;
+  }
+
+  /* ─── ABSTRACT BOX ─── */
+  .abstract-box {
+    border: 1px solid var(--gold-dim);
+    background: rgba(201,168,76,0.04);
+    padding: 2rem 2.5rem;
+    position: relative;
+    margin: 3rem 0;
+  }
+  .abstract-box::before {
+    content: 'АНОТАЦІЯ';
+    position: absolute;
+    top: -0.7rem;
+    left: 2rem;
+    background: var(--deep);
+    padding: 0 0.8rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+  }
+  .abstract-box p {
+    font-style: italic;
+    color: var(--cream-dim);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  /* ─── SECTION ─── */
+  .section { margin: 5rem 0; }
+  .section-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--bio-dim);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(232,212,138,0.2);
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--bio);
+  }
+
+  /* ─── BODY TEXT ─── */
+  p { margin-bottom: 1.4rem; color: var(--cream); }
+  p:last-child { margin-bottom: 0; }
+
+  strong { color: var(--gold-light); font-weight: 600; }
+  em     { color: var(--bio-pale); font-style: italic; }
+
+  /* ─── PULL QUOTE ─── */
+  .pull-quote {
+    border-left: 3px solid var(--bio);
+    padding: 1.2rem 2rem;
+    margin: 2.5rem 0;
+    background: rgba(0,229,204,0.04);
+    position: relative;
+  }
+  .pull-quote::before {
+    content: '"';
+    position: absolute;
+    top: -1rem;
+    left: 1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--bio-dim);
+    line-height: 1;
+    opacity: 0.4;
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--bio-pale);
+    line-height: 1.7;
+  }
+
+  /* ─── NODE DIAGRAM ─── */
+  .diagram-wrap {
+    margin: 3rem 0;
+    padding: 2.5rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: rgba(3,9,15,0.6);
+    position: relative;
+    overflow: hidden;
+  }
+  .diagram-wrap::before {
+    content: 'СХЕМА АРХІТЕКТУРИ ВУЗЛІВ';
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .diagram-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,229,204,0.03), transparent);
+    pointer-events: none;
+  }
+
+  .node-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .node-row {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .node-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0.5rem 0;
+  }
+  .node-card {
+    flex: 1;
+    border: 1px solid;
+    padding: 1rem 1.2rem;
+    position: relative;
+  }
+  .node-card.r0 { border-color: rgba(0,229,204,0.2); background: rgba(0,229,204,0.03); }
+  .node-card.r1 { border-color: rgba(0,137,123,0.4); background: rgba(0,137,123,0.05); }
+  .node-card.r2 { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.05); }
+  .node-card.r3 { border-color: rgba(192,82,61,0.5);  background: rgba(192,82,61,0.06); }
+  .node-title { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.3em; margin-bottom: 0.3rem; }
+  .node-card.r0 .node-title { color: var(--bio); }
+  .node-card.r1 .node-title { color: var(--bio-dim); }
+  .node-card.r2 .node-title { color: var(--gold); }
+  .node-card.r3 .node-title { color: var(--rust-light); }
+  .node-reach { font-size: 0.75rem; color: var(--cream-dim); margin-bottom: 0.5rem; }
+  .node-desc  { font-size: 0.85rem; color: var(--cream-dim); line-height: 1.5; }
+  .node-nature { font-size: 0.78rem; font-style: italic; color: var(--bio-dim); margin-top: 0.4rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.4rem; }
+
+  .flow-arrow {
+    text-align: center;
+    color: var(--gold-dim);
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+    letter-spacing: 0.2em;
+  }
+
+  /* ─── REGIME TABLE ─── */
+  .regime-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  @media (max-width: 640px) { .regime-grid { grid-template-columns: 1fr; } }
+  .regime-card {
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 1.5rem;
+    background: rgba(10,22,40,0.5);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .regime-card:hover {
+    border-color: rgba(201,168,76,0.6);
+    background: rgba(10,22,40,0.8);
+  }
+  .regime-card h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .regime-card p { font-size: 0.9rem; color: var(--cream-dim); margin-bottom: 0; }
+  .regime-card .badge {
+    display: inline-block;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 0.1rem 0.5rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid;
+  }
+  .badge-full  { color: var(--rust-light); border-color: var(--rust-light); }
+  .badge-hybrid{ color: var(--bio-dim);    border-color: var(--bio-dim); }
+  .badge-pure  { color: var(--gold-dim);   border-color: var(--gold-dim); }
+
+  /* ─── PROGNOSIS BOX ─── */
+  .prognosis {
+    border: 1px solid rgba(192,82,61,0.4);
+    background: rgba(139,58,42,0.07);
+    padding: 2rem 2.5rem;
+    margin: 3rem 0;
+    position: relative;
+  }
+  .prognosis::before {
+    content: '⚠ ПРОГНОЗ НАУКОВО-АНАЛІТИЧНОГО ВІДДІЛУ';
+    position: absolute;
+    top: -0.7rem;
+    left: 2rem;
+    background: var(--deep);
+    padding: 0 0.8rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--rust-light);
+  }
+
+  /* ─── FORMULA ─── */
+  .formula-box {
+    font-family: 'Special Elite', monospace;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,229,204,0.2);
+    padding: 1.2rem 1.8rem;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+    color: var(--bio);
+    letter-spacing: 0.05em;
+    line-height: 2;
+    overflow-x: auto;
+  }
+
+  /* ─── PROGRESS BARS ─── */
+  .progress-list { margin: 2rem 0; }
+  .progress-item { margin-bottom: 1rem; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--cream-dim);
+    margin-bottom: 0.3rem;
+  }
+  .progress-bar-bg {
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--bio-dim), var(--bio));
+    animation: fillBar 2s ease 0.5s both;
+    transform-origin: left;
+  }
+  .progress-bar-fill.danger { background: linear-gradient(90deg, var(--rust), var(--rust-light)); }
+  .progress-bar-fill.gold   { background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+  @keyframes fillBar {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  /* ─── FINAL SECTION ─── */
+  .conclusion {
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+  }
+  .conclusion::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(201,168,76,0.15);
+    pointer-events: none;
+  }
+  .big-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.5;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    text-shadow: 0 0 30px rgba(232,212,138,0.15);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 3rem 0 2rem;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    position: relative;
+    z-index: 10;
+  }
+  footer .sigil {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--gold-dim);
+    opacity: 0.5;
+  }
+
+  /* ─── TERM TOOLTIPS ─── */
+  .term {
+    color: var(--bio);
+    border-bottom: 1px dashed rgba(0,229,204,0.4);
+    cursor: crosshair;
+    position: relative;
+    white-space: nowrap;
+  }
+  .term::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(6,14,26,0.97);
+    border: 1px solid rgba(0,229,204,0.35);
+    color: var(--cream);
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 0.82rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    white-space: normal;
+    width: 280px;
+    padding: 0.6rem 0.9rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 999;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  }
+  .term::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0,229,204,0.35);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 999;
+  }
+  .term:hover::after,
+  .term:hover::before { opacity: 1; }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--abyss); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 0; }
+
+  /* ─── SELECTION ─── */
+  ::selection { background: rgba(0,229,204,0.25); color: var(--cream); }
+
+  /* ─── HORIZONTAL RULE ─── */
+  hr.deco {
+    border: none;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    margin: 3rem 0;
+    position: relative;
+  }
+  hr.deco::after {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--deep);
+    padding: 0 0.8rem;
+    color: var(--gold-dim);
+    font-size: 0.7rem;
+  }
+
+  /* ─── GLOW TEXT ─── */
+  .glow { color: var(--bio); text-shadow: 0 0 15px rgba(0,229,204,0.6); }
+
+  /* ─── FADE IN ON SCROLL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="caustic-layer"></div>
+<div class="bubbles">
+  <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+  <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+  <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+  <div class="bubble"></div>
+</div>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-frame"></div>
+    <div class="hero-eyebrow">Журнал «Горизонт Подій» · Том XIV · Випуск IV · 27 жовтня 1962</div>
+    <h1 class="hero-title">ВІДЕО&shy;КРАТІЯ</h1>
+    <p class="hero-subtitle">Анатомія режиму, що керує через забуття</p>
+    <div class="hero-meta">Науково-популярне дослідження · Відділ політичної кібернетики</div>
+    <div style="margin-top:1.5rem;" class="stamp">Для вільного поширення</div>
+  </header>
+
+  <div class="deco-line"><span>◆ ◆ ◆</span></div>
+
+  <!-- ABSTRACT -->
+  <div class="abstract-box reveal">
+    <p>
+      Цей матеріал присвячений новому типу політичного управління, що виникає на перетині масових
+      комунікацій, мережевої архітектури й розпаду суспільного горизонту планування. Ми досліджуємо
+      природу відеократії як надбудови над існуючими режимами; аналізуємо геометрію інформаційних потоків
+      і вузлових мовників; розглядаємо, як цей феномен взаємодіє з класичним авторитаризмом і
+      ліберальною демократією; і пропонуємо прогноз щодо його наслідків для науково-технічного прогресу.
+      Висновки є невтішними, але необхідними.
+    </p>
+  </div>
+
+  <!-- SECTION I -->
+  <section class="section reveal">
+    <div class="section-num">Розділ I</div>
+    <h2 class="section-title">Що таке відеократія,<br>або <em>Влада без <span class="term" data-tip="Грецьке поняття кінцевої мети або призначення, що надає сенс існуванню системи. Режим без телосу не прагне нікуди — він просто підтримує власне існування.">Телосу</span></em></h2>
+
+    <div class="deco-line"><span>I · I</span></div>
+
+    <p>
+      Якщо людство двадцятого сторіччя жахалося диктаторів з атомною бомбою і ідеологічними
+      маніфестами, то реальність виявилась витонченішою і страшнішою. <strong>Відеократія</strong> —
+      це не диктатура і не демократія. Це <strong>медіакратія третього покоління</strong>, де суверен —
+      не народ, не вождь, а потік уваги.
+    </p>
+
+    <p>
+      Влада в цій системі належить не тому, хто контролює армію чи державний апарат,
+      а тому, хто контролює <strong>швидкість зміни порядку денного</strong>. Стара пропаганда брехала.
+      Відеократія не бреше — вона замінює координати, в яких брехня і правда взагалі мають сенс.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        Класичний авторитаризм тримався на одному великому наративі — його можна було заперечити,
+        довести хибність, організуватися навколо альтернативи. Відеократія генерує наративи
+        швидше, ніж суспільство встигає їх верифікувати.
+      </p>
+    </div>
+
+    <p>
+      Результатом є те, що ми пропонуємо називати <strong><span class="term" data-tip="Накопичений дефіцит критичного осмислення: суспільство обробляє вчорашній порядок денний, поки сьогоднішній вже застарів.">когнітивним боргом</span></strong>:
+      суспільство думає постійно, але завжди про вчорашній день, поки сьогодні вже стало
+      позавчорашнім. Критичне мислення — процес із латентністю. Вірусний цикл — ні.
+    </p>
+
+    <p>
+      Формально в країні з відеократичним режимом існують парламент, вибори, суди, опозиція.
+      Реально — <strong><span class="term" data-tip="Структури, що зберігають зовнішні ознаки легітимних органів влади, але фактично не впливають на ухвалення рішень.">нульові інститути</span></strong>: структури-декорації легітимності, що не мають
+      відношення до прийняття рішень. Рішення приймаються там, де редакційна нарада зливається
+      з алгоритмом рекомендацій.
+    </p>
+
+    <div class="formula-box">
+P(зміна_реальності) ≠ f(факти)
+P(зміна_реальності)  = f(швидкість × охоплення × емоційна_амплітуда)
+
+Де: горизонт_верифікації &gt;&gt; горизонт_поширення
+→ консенсус формується до завершення перевірки
+    </div>
+
+    <p>
+      Показовий приклад: у понеділок суспільна думка транслює через тисячі вузлів, що утримування
+      котів є найвищим благом. За тиждень та сама мережа проголошує, що це — прикмета нечистої сили.
+      Змінились не факти. Змінились <strong>координати, в яких факти існують</strong>.
+      Суспільство живе в іншій реальності, ніж тиждень тому, і не має інструментів це зафіксувати —
+      бо самі інструменти є частиною потоку.
+    </p>
+
+    <p>
+      Відеократія — це <strong>режим без телосу</strong>. Він не будує нічого, не знищує нічого
+      цілеспрямовано. Він підтримує стан перманентної невизначеності, в якому будь-яка
+      колективна дія неможлива — не тому що заборонена, а тому що суб'єкт дії розчиняється
+      раніше, ніж встигає сформуватися.
+    </p>
+  </section>
+
+  <hr class="deco">
+
+  <!-- SECTION II -->
+  <section class="section reveal">
+    <div class="section-num">Розділ II</div>
+    <h2 class="section-title">Архітектура вузлових мовників:<br><em>Геометрія інформаційного дна</em></h2>
+
+    <div class="deco-line"><span>II · I</span></div>
+
+    <p>
+      Соціальні медіа — не рівна площина і не ієрархічна піраміда. Це
+      <strong><span class="term" data-tip="Граф, чия структура залишається подібною до себе при будь-якому масштабі розгляду — від окремого кластера до всієї мережі.">масштабно-інваріантний граф</span></strong>, де розподіл зв'язків підкоряється <span class="term" data-tip="Математична залежність P(k) ~ k^(−γ): кілька вузлів мають астрономічно більше зв'язків, ніж переважна більшість.">степеневому закону</span>.
+      Більшість вузлів має мало зв'язків. Кілька вузлів мають їх астрономічно багато.
+      Ця асиметрія самоорганізована: нові учасники приєднуються переважно до вже великих
+      (<span class="term" data-tip="Механізм, за яким нові вузли з більшою ймовірністю підключаються до вже великих хабів — «багаті стають ще багатшими» без будь-якої змови.">закон преференційного приєднання</span>). Багаті стають ще багатшими — не через змову, а через геометрію.
+    </p>
+
+    <p>
+      Наслідок парадоксальний: мережа <strong>надзвичайно стійка</strong> до випадкових збоїв,
+      але <strong>катастрофічно вразлива</strong> до цільових атак на хаби.
+      Розуміння цієї структури є ключем як до управління нею, так і до опору їй.
+    </p>
+
+    <!-- NODE DIAGRAM -->
+    <div class="diagram-wrap reveal">
+      <div class="node-grid">
+
+        <div class="node-row">
+          <div class="node-label">РІВЕНЬ 3</div>
+          <div class="node-card r3">
+            <div class="node-title">МЕГАВУЗЛИ</div>
+            <div class="node-reach">5 000 000+ підписників</div>
+            <div class="node-desc">Межа між мовником і медіасередовищем розчиняється. Це вже не людина з аудиторією, а інституція, що мімікрує під людину. Не продукують зміни думки напряму — <strong>легітимізують</strong> те, що вже прийшло знизу через мезорівень.</div>
+            <div class="node-nature">Природна аналогія: серце. Не думає, не фільтрує — але якщо зупиниться, зупиниться все.</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">↑ &nbsp; Легітимізація &nbsp; ↓ &nbsp; Охоплення</div>
+
+        <div class="node-row">
+          <div class="node-label">РІВЕНЬ 2</div>
+          <div class="node-card r2">
+            <div class="node-title">МАКРОВУЗЛИ</div>
+            <div class="node-reach">100 000 — 5 000 000</div>
+            <div class="node-desc">Генератори порядку денного. Вони вже не реагують на реальність — вони <strong>визначають, що є реальністю</strong>. Їхнє висвітлення події є самою подією для більшості аудиторії. Ключовий ефект: <span class="term" data-tip="Властивість системи, де прогноз або опис явища змінює саму описувану реальність — публікація «суспільство вважає X» змушує суспільство вважати X.">рефлексивність</span> — публікація прогнозу змінює поведінку, яку прогнозує.</div>
+            <div class="node-nature">Природна аналогія: вузлові ганглії нервової системи. Рефлекс без свідомості.</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">↑ &nbsp; Консолідація &nbsp; ↓ &nbsp; Фреймінг</div>
+
+        <div class="node-row">
+          <div class="node-label">РІВЕНЬ 1</div>
+          <div class="node-card r1">
+            <div class="node-title">МЕЗОВУЗЛИ</div>
+            <div class="node-reach">5 000 — 100 000</div>
+            <div class="node-desc"><strong>Конвертери мови.</strong> Беруть сигнал із верхніх рівнів і переформатовують під локальний словник, субкультуру, регіон. Аудиторія вважає, що отримує незалежну думку — насправді узгоджений сигнал, перекладений рідною мовою спільноти. В теорії мереж мають найвищу <span class="term" data-tip="Міра центральності вузла: як часто він опиняється на найкоротшому шляху між двома іншими вузлами. Видалення таких вузлів розриває мережу на ізольовані острови.">betweenness centrality</span> — саме тут найнебезпечніший ефект всієї архітектури.</div>
+            <div class="node-nature">Природна аналогія: лімфатичні вузли. Місця, де інфекція може осісти непомітно.</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">↑ &nbsp; Агрегація &nbsp; ↓ &nbsp; Первинний шум</div>
+
+        <div class="node-row">
+          <div class="node-label">РІВЕНЬ 0</div>
+          <div class="node-card r0">
+            <div class="node-title">МІКРОВУЗЛИ</div>
+            <div class="node-reach">1 — 500 підписників</div>
+            <div class="node-desc">Функція не в охопленні, а в <strong>щільності довіри</strong>. Повідомлення сприймається як особиста рекомендація. Ізольовані кластери з високою внутрішньою зв'язністю — саме тут відбувається реальний обмін між системою і людиною.</div>
+            <div class="node-nature">Природна аналогія: альвеоли легень. Самі не транспортують — але саме тут відбувається газообмін.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p>
+      Динаміка потоку є <strong>рекурсивною петлею з підсиленням</strong>: кожен цикл проходження
+      збільшує сигнал і зменшує контекст. Математична структура нагадує
+      <span class="term" data-tip="Раптова зміна стану складної системи після тривалого накопичення напруги — як снігова лавина від ледь помітного поштовху. Система не попереджає про перехід.">каскад нерівноважних фазових переходів</span> — система довго перебуває в стані повільної дифузії,
+      потім різко переходить у новий стан. Як пожежа в сухому лісі: структура розповсюдження
+      залежить не від джерела, а від <strong>топології горючого матеріалу</strong> —
+      тобто від попереднього стану мережі довіри.
+    </p>
+
+    <p>
+      Тут виявляється і слабке місце архітектури. Якщо одночасно вимкнути 5–10% найбільших хабів —
+      мережа розпадається на ізольовані кластери, нездатні до координації. Саме тому відеократія
+      <strong>не може дозволити собі цензуру великих вузлів</strong>. Натомість вона використовує
+      інший інструмент: розмноження конкуруючих хабів, щоб жоден не став достатньо великим
+      для альтернативної координації. Контроль — не через монополію на мовлення.
+      Через <strong><span class="term" data-tip="Ринкова структура, де кілька великих гравців домінують, не маючи повної монополії — конкуренція між ними видима, але вхід нових гравців фактично заблокований.">олігополію на увагу</span></strong>.
+    </p>
+  </section>
+
+  <hr class="deco">
+
+  <!-- SECTION III -->
+  <section class="section reveal">
+    <div class="section-num">Розділ III</div>
+    <h2 class="section-title">Відеократія і <em>реальні режими</em>:<br>хто і як використовує нову зброю</h2>
+
+    <div class="deco-line"><span>III · I</span></div>
+
+    <p>
+      Відеократія — не режим сам по собі, а <strong>надбудова</strong>, що паразитує на існуючих
+      формах правління або замінює їх зсередини. Правильніше говорити про ступінь відеократизації.
+    </p>
+
+    <div class="regime-grid">
+      <div class="regime-card">
+        <div class="badge badge-full">ПОВНА ВІДЕОКРАТІЯ</div>
+        <h4>США після 2015</h4>
+        <p>Найчистіший лабораторний випадок. Вперше в історії глава виконавчої влади керував країною через пряму трансляцію в обхід будь-яких інституційних фільтрів. Система стала відеократичною — і вже не може функціонувати інакше.</p>
+      </div>
+      <div class="regime-card">
+        <div class="badge badge-full">ПОВНА ВІДЕОКРАТІЯ</div>
+        <h4>Бразилія Болсонару</h4>
+        <p>Ідентична копія, але з WhatsApp замість Twitter. Мережа із сотень тисяч груп без центрального мовника. Відеократія продемонструвала здатність до офлайн-матеріалізації: штурм Конгресу організований виключно через месенджери.</p>
+      </div>
+      <div class="regime-card">
+        <div class="badge badge-hybrid">ГІБРИД</div>
+        <h4>Росія</h4>
+        <p>Класичний авторитаризм телевізійної епохи намагається інтегрувати відеократичні механізми — і застряє між двома моделями. Телевізійна пропаганда потребує єдиного наративу. Відеократія потребує хаосу. Ці вимоги несумісні.</p>
+      </div>
+      <div class="regime-card">
+        <div class="badge badge-hybrid">ГІБРИД</div>
+        <h4>Угорщина Орбана</h4>
+        <p>Найбільш системний випадок інституційного захоплення. Орбан не контролює контент — він контролює власність на вузли: 500+ медіа в руках лояльних власників. Спроба поєднати степеневу геометрію мережі з ієрархічним контролем.</p>
+      </div>
+      <div class="regime-card">
+        <div class="badge badge-pure">КИТАЙСЬКА МОДЕЛЬ</div>
+        <h4>Найвишуканіший гібрид</h4>
+        <p>Держава привласнила відеократичні інструменти, але інвертувала напрям потоку: замість знизу вгору — зверху вниз. Великий файєрвол — не просто цензура, а розʼєднання двох онтологій: зовні хаос, всередині контрольована реальність.</p>
+      </div>
+      <div class="regime-card">
+        <div class="badge badge-pure">БЕЗ ДЕРЖАВИ</div>
+        <h4>Ілон Маск і X</h4>
+        <p>Перший приватний відеократ глобального масштабу. Людина без виборного мандату, що формує порядок денний десятків країн через контроль над інфраструктурою. Структурно — феодалізм у мережевому просторі.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold-light); margin:2.5rem 0 1rem; font-weight:700;">
+      Відеократія проти класичного авторитаризму: хто виграє?
+    </h3>
+
+    <p>
+      Відповідь залежить від терміну і середовища. Класичний авторитаризм зберігає монополію
+      на насильство — і це вирішальний козир у короткостроковій перспективі.
+      Коли М'янма відключила інтернет і вивела армію у 2021 — жодна кількість твітів
+      не змінила фізичного результату.
+    </p>
+
+    <p>
+      Але відеократія виграє там, де авторитаризм найвразливіший: у
+      <strong>вартості управління</strong>, у швидкості делегітимізації, у
+      відсутності єдиного центру для атаки і в глобальній проникності через кордони.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        Класичний авторитаризм може впасти від революції.
+        Відеократія не падає — вона розчиняє саму можливість революції,
+        замінюючи спільного ворога нескінченним потоком мікроворогів.
+      </p>
+    </div>
+
+    <p>
+      Синергія відеократії з демократією — найнебезпечніше поєднання. Демократія має формальні
+      захисти від концентрації влади, але всі вони розраховані на повільні інститути: суди, вибори, пресу.
+      Відеократія рухається <strong>швидше за всі ці захисти</strong>.
+      Виникає процедурна демократія при фактичній відеократичній владі:
+      вибори відбуваються, але їхній результат визначається тим, хто контролює
+      емоційний стан електорату в останні 72 години кампанії.
+    </p>
+  </section>
+
+  <hr class="deco">
+
+  <!-- SECTION IV -->
+  <section class="section reveal">
+    <div class="section-num">Розділ IV</div>
+    <h2 class="section-title">Прогрес після знекровлення:<br><em>Коли зникає 90% бази</em></h2>
+
+    <div class="deco-line"><span>IV · I</span></div>
+
+    <p>
+      До цього аналізу додається другий удар: <strong>штучний інтелект як генератор контенту</strong>
+      ліквідує економічний стимул для входження у творчі й наукові дисципліни.
+      Художники, музиканти, програмісти, що роками будували навичку заради визнання
+      навіть малою спільнотою — позбавляються цього стимулу.
+      Для розуміння масштабу катастрофи необхідно розрізнити два типи прогресу.
+    </p>
+
+    <p>
+      <strong>Прогрес-оптимізація</strong> — робити відоме краще, швидше, дешевше.
+      Штучний інтелект тут не шкодить — він прискорює.
+      <strong>Прогрес-розрив</strong> — стрибок у принципово нову онтологію:
+      квантова механіка, <span class="term" data-tip="Напрямок у топології, що відмовляється від поняття точки на користь відкритих множин як базових об'єктів — мова про простори без «атомів».">некліткова геометрія</span>, <span class="term" data-tip="Техніка музичної композиції Шенберга, що відмовляється від тональності: всі 12 тонів рівноправні, жоден не є «домашнім». Революція, а не еволюція.">додекафонія</span>.
+      Відеократія і знекровлення творчої бази атакують майже виключно другий тип —
+      і це <strong>непомітно в короткостроковій перспективі</strong>, бо перший дає
+      видимі результати швидше.
+    </p>
+
+    <div class="progress-list">
+      <div class="progress-item">
+        <div class="progress-label"><span>Комерційна графіка / стандартне програмування</span><span>Повна заміна без катастрофи</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill gold" style="width:95%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-label"><span>Фундаментальна композиція / архітектурна думка</span><span>Критична втрата без заміни</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill danger" style="width:80%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-label"><span>Теоретична фізика і математика</span><span>Архітектурна обмеженість ШІ</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill danger" style="width:70%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-label"><span>Філософія і право в критичних точках</span><span>Незамінна людська позиція</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:60%"></div></div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--gold-light); margin:2rem 0 1rem; font-weight:700;">
+      Статистичний аргумент: глибше, ніж здається
+    </h3>
+
+    <p>
+      Серед 1000 математиків шанс на появу видатного значно вищий, ніж серед 100 — і не просто
+      тому, що вибірка більша.
+      Видатний математик майже ніколи не виникає з нізвідки. Він виникає з середовища,
+      де є з ким сперечатися, кому пояснювати, від кого отримувати опір.
+      Рамануджан — геній, але без Харді залишився б регіональним феноменом із нотатками,
+      які ніхто не зміг би прочитати. <strong>Середовище не просто виявляє талант — воно доозброює його</strong>
+      до рівня, на якому він стає корисним.
+    </p>
+
+    <p>
+      З 1000 музикантів 950 ніколи не стануть Колтрейном. Але в процесі вони усувають
+      хибні напрямки і накопичують негативний результат — який теж є знанням.
+      Або просто стають вчителями, достатньо грамотними, щоб дати Колтрейну технічну базу в 12 років.
+      <strong>Без нижніх рівнів піраміди верхні рівні не мають на що спиратися.</strong>
+    </p>
+
+    <div class="formula-box">
+Раніше:
+  Вхід (зусилля) ←————————————→ Вихід (майстерність)
+                     7–15 років
+                     + мікровинагороди по дорозі
+
+Тепер:
+  Вхід (промпт) → Вихід (результат)
+                    30 секунд
+                    і результат об'єктивно кращий за 5 років практики
+
+→ Раціональна людина обирає другий шлях.
+  Трагедія: це не деградація — це оптимізація, що руйнує довгострокову продуктивність.
+    </div>
+
+    <p>
+      Відеократія тут синергує: вона скорочує горизонт очікуваної винагороди до годин.
+      Формування будь-якої складної навички — це інвестиція з горизонтом років.
+      Два процеси разом роблять цю інвестицію <strong>психологічно нераціональною</strong>
+      навіть для людей з потенціалом.
+    </p>
+
+    <div class="prognosis reveal">
+      <p>
+        Найгірше не те, що прогрес зупиниться. Найгірше те, що він виглядатиме як
+        продовження ще дуже довго. Штучний інтелект продукуватиме дедалі більше контенту,
+        патентів, публікацій, музики. Метрики зростатимуть. Але це буде
+        <strong>рекомбінація існуючого простору без виходу за його межі</strong>.
+        Момент, коли це стане очевидним, настане тоді, коли людство зіткнеться
+        з проблемою, що не є рекомбінацією відомого — нова пандемія з невідомою біологією,
+        кліматичний переломний момент за межами моделей. І виявиться, що за 30 років
+        не підготували людей, здатних думати в цьому просторі —
+        бо весь цей час ШІ справлявся з іншим достатньо добре, щоб не виникало відчуття нестачі.
+      </p>
+    </div>
+
+    <p>
+      Теоретичний вихід існує: суспільство має <strong>свідомо субсидіювати неефективність</strong>
+      у стратегічних точках. Тримати програму підготовки математиків більшу, ніж потрібно за
+      поточними задачами. Фінансувати художників, що вчаться роками. Підтримувати спільноти,
+      де мікровинагорода за розвиток навички існує незалежно від ринку уваги.
+    </p>
+
+    <p>
+      Це контрінтуїтивно і дорого. І в умовах відеократії —
+      <strong>політично нереалізовно</strong>: будь-який кандидат, що пропонує фінансувати
+      «неефективне», програє тому, хто обіцяє швидкий результат.
+      <span class="glow">Коло замикається.</span>
+    </p>
+  </section>
+
+  <hr class="deco">
+
+  <!-- CONCLUSION -->
+  <div class="conclusion reveal">
+    <div class="ornament">◆ &nbsp; ◇ &nbsp; ◆</div>
+    <p class="big-quote">
+      «Влада тут — це привілей мати горизонт планування<br>
+      довший за один новинний цикл.»
+    </p>
+    <div class="deco-line"><span>ВИСНОВОК</span></div>
+    <p style="max-width:680px; margin:1.5rem auto 0; color:var(--cream-dim); font-style:italic; font-size:1rem; line-height:1.9;">
+      Відеократія не перемагає і не програє — вона перетворює саме поле змагання.
+      Єдина можлива резистентність полягає у виповільненні: структури, що функціонують
+      повільніше за медіацикл. Університет старого зразку. Церква з довгою пам'яттю.
+      Книга. Це не консерватизм як ідеологія — це <strong>темп як зброя</strong>.
+      Але відеократія вирішує і це — колонізуючи повільні інститути, перетворюючи їх
+      на контент про себе самих. Це не перемога однієї сторони.
+      Це стан, у якому саме поняття перемоги більше не має референта.
+    </p>
+  </div>
+
+  <div class="ornament" style="margin-top:4rem;">◆ &nbsp; ◇ &nbsp; ◆ &nbsp; ◇ &nbsp; ◆</div>
+
+</div>
+
+<footer>
+  <span class="sigil">⚓</span>
+  ЖУРНАЛ «ГОРИЗОНТ ПОДІЙ» · ВІДДІЛ ПОЛІТИЧНОЇ КІБЕРНЕТИКИ
+  <br><br>
+  «A man chooses. A slave obeys.» &nbsp;·&nbsp; Andrew Ryan
+  <br><br>
+  <div style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid rgba(201,168,76,0.15); font-family:'Special Elite',monospace; font-size:0.65rem; letter-spacing:0.15em; color:var(--cream-dim); line-height:2;">
+    © 2026 · Claude (Anthropic, PBC)<br>
+    Текст підготовлений штучним інтелектом Claude, розробленим компанією Anthropic, PBC.<br>
+    Модель: Claude Sonnet 4.6 &nbsp;·&nbsp; claude.ai<br>
+    Модерування та редагування: Potapenko I.A.
+  </div>
+  <br>
+  Матеріал призначений для вільного поширення на умовах відкритого доступу.
+</footer>
+
+<script>
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Subtle mouse-parallax on caustic layer
+  const caustic = document.querySelector('.caustic-layer');
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 8;
+    const y = (e.clientY / window.innerHeight - 0.5) * 8;
+    caustic.style.transform = `translate(${x}px, ${y}px)`;
+  });
+</script>
+</body>
+</html>
